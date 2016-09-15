@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:toolbar="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context=".DemoActivity"
+    >
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#4f54d6"
+            toolbar:navigationIcon="@drawable/socket_icon"
+            android:theme="@style/Theme.ToolBar.socket"
+            ></android.support.v7.widget.Toolbar>
+
+        <com.xieyingjie.smartsocket.navigation.AHBottomNavigationViewPager
+            android:id = "@+id/view_pager"
+            android:layout_width = "match_parent"
+            android:layout_height= "wrap_content"
+            android:layout_below="@+id/toolbar"
+            />
+    </RelativeLayout>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/floating_action_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right|bottom"
+        android:layout_marginBottom="72dp"
+        android:layout_marginRight="16dp"
+        android:src="@mipmap/ic_content_add"
+        android:visibility="gone"
+        />
+    <com.xieyingjie.smartsocket.navigation.AHBottomNavigation
+        android:id="@+id/bottom_navigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"></com.xieyingjie.smartsocket.navigation.AHBottomNavigation>
+</android.support.design.widget.CoordinatorLayout>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+                                   "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+ <class name="com.yjx.smarthome.moudel.User">
+  <id name="userId" type="java.lang.Integer">
+   <column name="userid" length="11" not-null="true"/>
+   <generator class="native"/>
+  </id>
+  <set name="userId" inverse="true">
+  	<key>
+  		<column name="userid" length="11" not-null="true"/>
+  	</key>
+	<one-to-many class="com.yjx.smarthome.moudel.Device"></one-to-many>
+  </set>
+  <property name="userAccount" type="java.lang.String">
+	<column name="account" length="20" />
+  </property>
+   <property name="userPass" type="java.lang.String">
+	<column name="userpass" length="20" />
+  </property>
+  <property name="userSex" type="java.lang.String">
+	<column name="sex" length="3" />
+  </property>
+  <property name="userPhone" type="java.lang.String">
+	<column name="phone" length="11" />
+  </property>
+  <property name="userIcon" type="java.lang.String">
+	<column name="icon" length="100" />
+  </property>
+ </class>
+</hibernate-mapping>
