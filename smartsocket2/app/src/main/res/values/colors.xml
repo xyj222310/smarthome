@@ -2,7 +2,7 @@
 <resources>
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorAccent">#ff4081</color>
     <color name="colorBottomNavigationPrimary">#9ca5d5</color>
     <color name="colorBottomNavigationPrimaryDark">#303f9f</color>
     <color name="colorBottomNavigationAccent">#FF4081</color>
@@ -12,7 +12,7 @@
     <color name="colorBottomNavigationNotification">#F63D2B</color>
 
     <color name="colorInactive">#747474</color>
-    <color name="colorActiveSmall">#FFFFFF</color>
+    <color name="colorActiveSmall">#ffffff</color>
     <color name="colorInactiveSmall">#50FFFFFF</color>
 
     <color name="color_tab_1">#455C65</color>

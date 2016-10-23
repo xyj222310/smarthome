@@ -3,6 +3,7 @@ package com.xieyingjie.smartsocket;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.content.Context;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
@@ -13,13 +14,12 @@ import android.content.CursorLoader;
 import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
-import android.os.AsyncTask;
 
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
-import android.text.TextWatcher;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
@@ -30,12 +30,17 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.xieyingjie.smartsocket.utils.HttpUtils;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.regex.PatternSyntaxException;
 
 import static android.Manifest.permission.READ_CONTACTS;
 
@@ -61,7 +66,10 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
      */
-    private UserLoginTask mAuthTask = null;
+        /*定义访问模式*/
+    public static int MODE = Context.MODE_PRIVATE;
+    /*定义一个SharedPreferences名。之后将以这个名字保存在Android文件系统中*/
+    public static final String PREFERENCE_NAME = "SaveUser";
 
     // UI references.
     private AutoCompleteTextView mEmailView;
@@ -83,7 +91,11 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
             @Override
             public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
                 if (id == R.id.register || id == EditorInfo.IME_NULL) {
-                    attempRegister();
+                    try {
+                        attempRegister();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                     return true;
                 }
                 return false;
@@ -93,7 +105,11 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
         mEmailRegisterButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                attempRegister();
+                try {
+                    attempRegister();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         });
         mLoginFormView = findViewById(R.id.register_form);
@@ -139,25 +155,42 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
             }
         }
     }
+    private boolean isEmailValid(String email) {
+        //TODO: Replace this with your own logic
+        int mMaxLenth = 200;//设置允许输入的字符长度
+        Pattern p = Pattern.compile(limitEx);
+        Matcher m = p.matcher(email);
+        if(email.length()>mMaxLenth ){
+            Snackbar.make(mEmailView,"你的名字好长",Snackbar.LENGTH_SHORT).show();
+            return false;
+        }
+        if(m.find()){
+            Snackbar.make(mEmailView,"请不要输入特殊字符，警告你哦",Snackbar.LENGTH_SHORT).show();
+            return false;
+        }
+        return email.length()>=3;
+    }
+    private boolean isPasswordValid(String password) {
+        //TODO: Replace this with your own logic
+        return password.length() > 4;
+    }
     /**
      * Attempts to sign in or register the account specified by the login form.
      * If there are form errors (invalid email, missing fields, etc.), the
      * errors are presented and no actual login attempt is made.
      */
-    private void attempRegister() {
-        if (mAuthTask != null) {
-            return;
-        }
-        // Reset errors.
+    private void attempRegister() throws  Exception{
         mEmailView.setError(null);
         mPasswordView.setError(null);
         // Store values at the time of the login attempt.
         String email = mEmailView.getText().toString();
         String password = mPasswordView.getText().toString();
+
         boolean cancel = false;
         View focusView = null;
+
         // Check for a valid password, if the user entered one.
-        if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
+        if (TextUtils.isEmpty(password)  ||!isPasswordValid(password)) {
             mPasswordView.setError(getString(R.string.error_invalid_password));
             focusView = mPasswordView;
             cancel = true;
@@ -177,31 +210,54 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
             // form field with an error.
             focusView.requestFocus();
         } else {
-            // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
+            //此处保存用户名
             showProgress(true);
-            mAuthTask = new UserLoginTask(email, password);
-            mAuthTask.execute((Void) null);
+            final String mEmail = email;
+            final String mPassword  = password;
+            final String function  = "register";
+            final String httpUrl = "http://192.168.137.1:8080/smarthome/UserServlet?";
+            HttpUtils httpUtils = new HttpUtils();
+            String params = "function=" + function + "&account=" + mEmail + "&password=" + mPassword;
+            //A Asyn to Login
+            httpUtils.doPostAsyn(httpUrl, params,new HttpUtils.CallBack() {
+                public void onRequestComplete(String result) {//绝壁是请求成功了而且接受也成功了才会过来
+                    try {
+                        JSONObject jsonObject = new JSONObject(result);
+                        if(jsonObject.getBoolean("exist")){
+                            RegisterActivity.this.runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    showProgress(false);
+                                    mPasswordView.setError("account already exist！!");
+                                    mPasswordView.requestFocus();
+                                }
+                            });
+                        }
+                        else{
+                            if (jsonObject.getBoolean("state")) {//weather login succeed //获取成功可以退出了
+                                finish();
+                            }//refreshUI
+                        }
+                    }catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+                public void onRequestError(String result) {//http回调用这里的话，绝壁 是连接失败
+                    Log.i("链接服务器失败了，绝壁.", "onRequestError: " + result);
+//                    Toast.makeText(LoginActivity.this,result,Toast.LENGTH_LONG).show();
+                    RegisterActivity.this.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            showProgress(false);
+                            mPasswordView.setError("连服务器失败");
+                            mPasswordView.requestFocus();
+                            Toast.makeText(RegisterActivity.this,"ConnectionFailed:",Toast.LENGTH_LONG).show();
+                        }
+                    });
+                }
+            });
         }
-    }
-    private boolean isEmailValid(String email) {
-        //TODO: Replace this with your own logic
-        int mMaxLenth = 200;//设置允许输入的字符长度
-        Pattern p = Pattern.compile(limitEx);
-        Matcher m = p.matcher(email);
-        if(email.length()>mMaxLenth ){
-            Snackbar.make(mEmailView,"你的名字好长",Snackbar.LENGTH_SHORT).show();
-            return false;
-        }
-        if(m.find()){
-            Snackbar.make(mEmailView,"请不要输入特殊字符，警告你哦",Snackbar.LENGTH_SHORT).show();
-            return false;
-        }
-        return true;
-    }
-    private boolean isPasswordValid(String password) {
-        //TODO: Replace this with your own logic
-        return password.length() > 4;
     }
     /**
      * Shows the progress UI and hides the login form.
@@ -281,54 +337,6 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
         };
         int ADDRESS = 0;
         int IS_PRIMARY = 1;
-    }
-    /**
-     * Represents an asynchronous login/registration task used to authenticate
-     * the user.
-     */
-    public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
-        private final String mEmail;
-        private final String mPassword;
-        UserLoginTask(String email, String password) {
-            mEmail = email;
-            mPassword = password;
-        }
-        @Override
-        protected Boolean doInBackground(Void... params) {
-            // TODO: attempt authentication against a network service.
-            try {
-                // Simulate network access.
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
-                return false;
-            }
-            for (String credential : DUMMY_CREDENTIALS) {
-                String[] pieces = credential.split(":");
-                if (pieces[0].equals(mEmail)) {
-                    // Account exists, return true if the password matches.
-                    return pieces[1].equals(mPassword);
-                }
-            }
-
-            // TODO: register the new account here.
-            return true;
-        }
-        protected void onPostExecute(final Boolean success) {
-            mAuthTask = null;
-            showProgress(false);
-
-            if (success) {
-                finish();
-            } else {
-                mPasswordView.setError(getString(R.string.error_incorrect_password));
-                mPasswordView.requestFocus();
-            }
-        }
-        @Override
-        protected void onCancelled() {
-            mAuthTask = null;
-            showProgress(false);
-        }
     }
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){

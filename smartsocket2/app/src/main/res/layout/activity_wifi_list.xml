@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="2dp"
+    android:paddingLeft="2dp"
+    android:paddingRight="1dp"
+    android:paddingTop="1dp"
+    tools:context="com.xieyingjie.smartsocket.WifiListActivity"
+    tools:background="@color/cardview_light_background">
+
+    <!--<LinearLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:gravity="center"-->
+        <!--android:orientation="horizontal">-->
+        <!--&lt;!&ndash;<ProgressBar&ndash;&gt;-->
+            <!--&lt;!&ndash;android:id="@+id/wifi_list_progress"&ndash;&gt;-->
+            <!--&lt;!&ndash;style="?android:attr/progressBarStyleLarge"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_width="wrap_content"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_height="wrap_content"/>&ndash;&gt;-->
+    <!--</LinearLayout>-->
+        <!--android:visibility="gone" />-->
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/wifi_list_swipe_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/wifi_list_recycler_view"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:background="@color/cardview_light_background">
+        </android.support.v7.widget.RecyclerView>
+    </android.support.v4.widget.SwipeRefreshLayout>
+</RelativeLayout>

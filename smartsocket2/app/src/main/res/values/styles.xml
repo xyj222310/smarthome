@@ -6,9 +6,10 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:listDivider">@color/colorInactive</item>
+        <item name="android:listDivider">@drawable/divider_bg</item>
+        <item name="android:windowIsTranslucent">true</item>
     </style>
-    
+
 
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
@@ -24,6 +25,7 @@
         <item name="actionOverflowButtonStyle">@style/ActionButton.Overflow.socket</item>
         <item name="android:actionMenuTextColor">@color/color_tab_2</item>
     </style>
+
     <style name="ActionButton.Overflow.socket" parent="android:style/Widget.Holo.Light.ActionButton.Overflow">
         <item name="android:src">@mipmap/ic_menu_more_overflow</item>
     </style>

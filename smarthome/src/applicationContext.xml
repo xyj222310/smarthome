@@ -12,29 +12,49 @@
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd" >
-  	<context:property-placeholder location="classpath:jdbc.properties"  
+ 		<context:property-placeholder location="classpath:jdbc.properties"  
 	 		ignore-unresolvable="true"/>
-	<bean id="myTestAction" class="com.yjx.smarthome.action.TestAction" scope="prototype">
-		<property name="us" ref="myUserService"></property>
-		<!--property是 class里面定义的的一个对象，而property的类型是ref的值代表的bean的class指出的类的类型  -->
-		<!-- 下面的bean也是一样的道理 -->
+		<context:component-scan base-package="com.yjx.smarthome"/>
+	
+	<!--property是 class里面定义的的一个对象，而property的类型是ref值代表的bean的class指出的类的类型  -->
+	<!-- 下面的bean也是一样的道理 -->
+	<!-- <bean id="myUserServlet" 
+		class="com.yjx.smarthome.action.UserServlet" scope="prototype">
+		 	<property name="userService" ref="myUserServiceImpl"></property>
+		
+		<property name="userDao" ref="myUserDao"></property>
+		<property name="sessionFactory" ref="mySessionFactory"></property>
+	</bean>-->
+	<!-- 通用泛型DAO组件 -->
+	<!-- 
+	<bean name="myBaseDaoImpl" class="com.yjx.smarthome.daoimpl.BaseDaoImpl" 
+			abstract="true">
+		<property name="sessionFactory" ref="mySessionFactory"></property>
 	</bean>
-	<bean id="myWebAction" class="com.yjx.smarthome.action.WebAction" scope="prototype">
-		<property name="us" ref="myUserService"></property>
-		<!--property是 class里面定义的的一个对象，而property的类型是ref的值代表的bean的class指出的类的类型  -->
-		<!-- 下面的bean也是一样的道理 -->
+	
+	<bean name="myUserDaoImpl" 
+		class="com.yjx.smarthome.daoimpl.UserDaoImpl" parent="myBaseDaoImpl" >
 	</bean>
-	<bean id="myUserService" class="com.yjx.smarthome.UserServiceImpl" scope="prototype">
-		<property name="ud" ref="myUserDao"></property>
+	 -->
+	
+	<!-- 抽象父业务组件 -->
+	<!--<bean name="myBaseServiceImpl" 
+		class="com.yjx.smarthome.serviceimpl.BaseServiceImpl" >
+	</bean> 
+	 -->
+	
+	<!-- 用户业务组件 -->
+	<!-- 
+	<bean name="myUserServiceImpl" class="com.yjx.smarthome.serviceimpl.UserServiceImpl"
+		parent="myBaseServiceImpl">
+		<constructor-arg ref="myUserDaoImpl"></constructor-arg>
 	</bean>
-	<bean id="myUserDao" class="com.yjx.smarthome.UserDaoImpl" scope="prototype">
-		<property name="sf" ref="sessionFactory"></property>
-	</bean>
-	<bean id="sessionFactory"
+	 -->
+	
+	<bean id="mySessionFactory"
 		class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
 		<!-- 注入连接池，包含了数据库各项信息 -->
 		<property name="dataSource" ref="myDataSource"></property>
-		
 		<!-- 配置hibernate的其他属性 -->
 		<property name="hibernateProperties">
 			<props>				<!-- 缓存策略 -->
@@ -51,13 +71,16 @@
 			<!--<property name="cache.provider_class">org.hibernate.cache.internal.NoCacheProvider</property> 
 			-->  
 			<!-- 配置二级缓存 -->  
+			<!-- 开启查询缓存 -->  
+			<!-- 
+			<prop key="hibernate.cache.use_query_cache">false</prop> 
 			<prop key="hibernate.cache.use_second_level_cache">true</prop>  
 			<prop key="hibernate.cache.region.factory_class">
-					org.hibernate.cache.ehcache.EhCacheRegionFactory</prop>  
+					org.hibernate.cache.ehcache.EhCacheRegionFactory</prop>
+			 -->
+			  
 			<!-- hibernate3的二级缓存配置 -->  
 			<!-- <property name="hibernate.cache.provider_class">org.hibernate.cache.EhCacheProvider</property> -->  
-			<!-- 开启查询缓存 -->  
-			<prop key="hibernate.cache.use_query_cache">true</prop>
 			<!-- 显示SQL -->    
 			<prop key="hibernate.show_sql">true</prop>    
 			    <!-- 格式化SQL -->    
@@ -70,8 +93,8 @@
 		</property>
 		<property name="mappingResources"><!-- mapping 资源 -->
 			<list>
-				<value>com/yjx/smarthome/moudel/Device.hbm.xml</value>
-				<value>com/yjx/smarthome/moudel/User.hbm.xml</value>
+				<value>com/yjx/smarthome/moudel/Socketinfo.hbm.xml </value>
+				<value>com/yjx/smarthome/moudel/Userinfo.hbm.xml </value>
 			</list>
 		</property>
 	</bean>
@@ -86,6 +109,12 @@
 		<property name="maxIdleTime" value="900"></property>
 		<property name="maxPoolSize" value="2"></property>	
 	</bean>
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">  
+        <property name="dataSource" ref="myDataSource" />  
+    </bean>  
+      
+    <!-- 开启事务控制的注解支持 -->  
+    <tx:annotation-driven transaction-manager="transactionManager"/>
 </beans>
 	
 

@@ -2,81 +2,130 @@
 <items version="2" >
 
     <item
-        jar="D:\Workspaces\AndroidStudio\smartsocket2\app\build\intermediates\incremental-runtime-classes\debug\instant-run.jar"
-        jumboMode="true"
-        revision="24.0.2"
-        sha1="bd1c120db0d2a93163bf9da7c4993010074f490a">
-        <dex dex="D:\Workspaces\AndroidStudio\smartsocket2\app\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run_9338e25f68b42b1ef766851ff8537675f0ba15c4\classes.dex" />
-    </item>
-    <item
-        jar="D:\Android\AndroidSDK\extras\android\m2repository\com\android\support\support-annotations\23.4.0\support-annotations-23.4.0.jar"
-        jumboMode="true"
-        revision="24.0.2"
-        sha1="ffbe55fdb2bb456b1485831706a9eac3300bb6b8">
-        <dex dex="D:\Workspaces\AndroidStudio\smartsocket2\app\build\intermediates\transforms\dex\debug\folders\1000\10\support-annotations-23.4.0_b4f1343e510e3cfdb50b9c0b24e9560b1a09c3de\classes.dex" />
-    </item>
-    <item
-        jar="D:\Workspaces\AndroidStudio\smartsocket2\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.4.0\jars\classes.jar"
-        jumboMode="true"
-        revision="24.0.2"
-        sha1="67bd36ee9340ec7c254108936ad16b24bed160cc">
-        <dex dex="D:\Workspaces\AndroidStudio\smartsocket2\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-v4-23.4.0_5c1d06b47b0dd9c876cf8969c001a6efcee6fab3\classes.dex" />
-    </item>
-    <item
-        jar="D:\Workspaces\AndroidStudio\smartsocket2\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\23.4.0\jars\classes.jar"
-        jumboMode="true"
-        revision="24.0.2"
-        sha1="548f06de403a9409f00554b3ee12a9fdea0e236c">
-        <dex dex="D:\Workspaces\AndroidStudio\smartsocket2\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-appcompat-v7-23.4.0_87a572911e4c4e4bccfa9d9aa510b5083e11c32a\classes.dex" />
-    </item>
-    <item
-        jar="D:\Workspaces\AndroidStudio\smartsocket2\app\build\intermediates\exploded-aar\com.android.support\support-vector-drawable\23.4.0\jars\classes.jar"
-        jumboMode="true"
-        revision="24.0.2"
-        sha1="c2c594cace5d83a3227b2b6e658ecbfd586d3ed9">
-        <dex dex="D:\Workspaces\AndroidStudio\smartsocket2\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-vector-drawable-23.4.0_46eefbcf257c686584e1df1c0530d1f8f8dee1ba\classes.dex" />
-    </item>
-    <item
-        jar="D:\Workspaces\AndroidStudio\smartsocket2\app\build\intermediates\exploded-aar\com.android.support\recyclerview-v7\23.4.0\jars\classes.jar"
-        jumboMode="true"
-        revision="24.0.2"
-        sha1="ec75036c3c52e451d0cde50a5aedaf5fd32354a0">
-        <dex dex="D:\Workspaces\AndroidStudio\smartsocket2\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-recyclerview-v7-23.4.0_b758fa7e045324a4480a4d0217e5af5e0f324f85\classes.dex" />
-    </item>
-    <item
+        is-multidex="true"
         jar="D:\Workspaces\AndroidStudio\smartsocket2\app\build\intermediates\exploded-aar\com.android.support\cardview-v7\23.4.0\jars\classes.jar"
         jumboMode="true"
+        optimize="true"
         revision="24.0.2"
         sha1="d9ecde39b460470e655de6e47c05573d2d5a8bfb">
         <dex dex="D:\Workspaces\AndroidStudio\smartsocket2\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-cardview-v7-23.4.0_94c2f093f81fd05c9ccbe19079da1f265f6dbd61\classes.dex" />
     </item>
     <item
+        is-multidex="true"
+        jar="D:\Workspaces\AndroidStudio\smartsocket2\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\23.4.0\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="548f06de403a9409f00554b3ee12a9fdea0e236c">
+        <dex dex="D:\Workspaces\AndroidStudio\smartsocket2\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-appcompat-v7-23.4.0_87a572911e4c4e4bccfa9d9aa510b5083e11c32a\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="D:\Workspaces\AndroidStudio\smartsocket2\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-base\8.4.0\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="fef2b3e4b6b1b0e5fe7b69fa137a5fa55a3182ab">
+        <dex dex="D:\Workspaces\AndroidStudio\smartsocket2\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-base-8.4.0_45dd1e867bc59ec0a877628f14629fce0031f069\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="D:\Workspaces\AndroidStudio\smartsocket2\app\build\intermediates\exploded-aar\com.android.support\animated-vector-drawable\23.4.0\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="de4db3785756bfb0915a9f59a9b3f2fea7407be4">
+        <dex dex="D:\Workspaces\AndroidStudio\smartsocket2\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-animated-vector-drawable-23.4.0_531f3745698705c45ecc61e41ca015b27c23d377\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
         jar="D:\Workspaces\AndroidStudio\smartsocket2\app\build\intermediates\incremental-classes\debug\instant-run-bootstrap.jar"
         jumboMode="true"
+        optimize="true"
         revision="24.0.2"
-        sha1="f51d0e9b81b813804a869fff3b6240cc526e0de6">
+        sha1="08ad2934a5dfc46c540d87c6573bf0584b376142">
         <dex dex="D:\Workspaces\AndroidStudio\smartsocket2\app\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run-bootstrap_52e18f0e4a45b30fa84e097c4ce8fa4679e101dd\classes.dex" />
     </item>
     <item
-        jar="D:\Workspaces\AndroidStudio\smartsocket2\app\build\intermediates\exploded-aar\com.android.support\design\23.4.0\jars\classes.jar"
+        is-multidex="true"
+        jar="D:\Workspaces\AndroidStudio\smartsocket2\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-appindexing\8.4.0\jars\classes.jar"
         jumboMode="true"
+        optimize="true"
         revision="24.0.2"
-        sha1="5326d9a850d491714fef8cbfaa9ea3416f0bf0d2">
-        <dex dex="D:\Workspaces\AndroidStudio\smartsocket2\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-design-23.4.0_c195da7214249c2b77f3df2f2c51454d7e96bbc0\classes.dex" />
+        sha1="65d086ee9daaf87b5af62ad24471edafa433354c">
+        <dex dex="D:\Workspaces\AndroidStudio\smartsocket2\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-appindexing-8.4.0_47d0da5dcb5ec3bb298c05789ded19e940d30299\classes.dex" />
     </item>
     <item
+        is-multidex="true"
+        jar="D:\Workspaces\AndroidStudio\smartsocket2\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.4.0\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="67bd36ee9340ec7c254108936ad16b24bed160cc">
+        <dex dex="D:\Workspaces\AndroidStudio\smartsocket2\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-v4-23.4.0_5c1d06b47b0dd9c876cf8969c001a6efcee6fab3\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="D:\Workspaces\AndroidStudio\smartsocket2\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-basement\8.4.0\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="8e673cdfadd8f2d98fdb2fda2285c30f6e449782">
+        <dex dex="D:\Workspaces\AndroidStudio\smartsocket2\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-basement-8.4.0_78732e3ad1ae5d0ab16d2c70571302d88ce8307a\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="D:\Android\AndroidSDK\extras\android\m2repository\com\android\support\support-annotations\23.4.0\support-annotations-23.4.0.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="ffbe55fdb2bb456b1485831706a9eac3300bb6b8">
+        <dex dex="D:\Workspaces\AndroidStudio\smartsocket2\app\build\intermediates\transforms\dex\debug\folders\1000\10\support-annotations-23.4.0_b4f1343e510e3cfdb50b9c0b24e9560b1a09c3de\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
         jar="D:\Workspaces\AndroidStudio\smartsocket2\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.4.0\jars\libs\internal_impl-23.4.0.jar"
         jumboMode="true"
+        optimize="true"
         revision="24.0.2"
         sha1="ea3c07504d2c8f4b13aa17c45c1b68ed9c1c3674">
         <dex dex="D:\Workspaces\AndroidStudio\smartsocket2\app\build\intermediates\transforms\dex\debug\folders\1000\10\internal_impl-23.4.0_5d3142f931e648cd22632be8890f5a5cbcba0285\classes.dex" />
     </item>
     <item
-        jar="D:\Workspaces\AndroidStudio\smartsocket2\app\build\intermediates\exploded-aar\com.android.support\animated-vector-drawable\23.4.0\jars\classes.jar"
+        is-multidex="true"
+        jar="D:\Workspaces\AndroidStudio\smartsocket2\app\build\intermediates\incremental-runtime-classes\debug\instant-run.jar"
         jumboMode="true"
+        optimize="true"
         revision="24.0.2"
-        sha1="de4db3785756bfb0915a9f59a9b3f2fea7407be4">
-        <dex dex="D:\Workspaces\AndroidStudio\smartsocket2\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-animated-vector-drawable-23.4.0_531f3745698705c45ecc61e41ca015b27c23d377\classes.dex" />
+        sha1="ee9e7126eada3d3cb4f78fe124e7b78a4cfbed55">
+        <dex dex="D:\Workspaces\AndroidStudio\smartsocket2\app\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run_9338e25f68b42b1ef766851ff8537675f0ba15c4\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="D:\Workspaces\AndroidStudio\smartsocket2\app\build\intermediates\exploded-aar\com.android.support\recyclerview-v7\23.4.0\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="ec75036c3c52e451d0cde50a5aedaf5fd32354a0">
+        <dex dex="D:\Workspaces\AndroidStudio\smartsocket2\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-recyclerview-v7-23.4.0_b758fa7e045324a4480a4d0217e5af5e0f324f85\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="D:\Workspaces\AndroidStudio\smartsocket2\app\build\intermediates\exploded-aar\com.android.support\support-vector-drawable\23.4.0\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="c2c594cace5d83a3227b2b6e658ecbfd586d3ed9">
+        <dex dex="D:\Workspaces\AndroidStudio\smartsocket2\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-vector-drawable-23.4.0_46eefbcf257c686584e1df1c0530d1f8f8dee1ba\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="D:\Workspaces\AndroidStudio\smartsocket2\app\build\intermediates\exploded-aar\com.android.support\design\23.4.0\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="5326d9a850d491714fef8cbfaa9ea3416f0bf0d2">
+        <dex dex="D:\Workspaces\AndroidStudio\smartsocket2\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-design-23.4.0_c195da7214249c2b77f3df2f2c51454d7e96bbc0\classes.dex" />
     </item>
 
 </items>

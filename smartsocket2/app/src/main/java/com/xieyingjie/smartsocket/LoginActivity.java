@@ -12,7 +12,6 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
@@ -20,6 +19,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
@@ -30,6 +30,16 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.android.gms.appindexing.AppIndex;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.xieyingjie.smartsocket.utils.Config;
+import com.xieyingjie.smartsocket.utils.HttpUtils;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -55,7 +65,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      * Keep track of the login task to ensure we can cancel it if requested.
      */
     //actionbar操作
-    private UserLoginTask mAuthTask = null;
+//    private UserLoginTask mAuthTask = null;
 
     /*定义访问模式*/
     public static int MODE = Context.MODE_PRIVATE;
@@ -68,6 +78,12 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private View mProgressView;
     private View mLoginFormView;
     private TextView goRegister;
+    private Button mEmailSignInButton ;
+    /**
+     * ATTENTION: This was auto-generated to implement the App Indexing API.
+     * See https://g.co/AppIndexing/AndroidStudio for more information.
+     */
+    private GoogleApiClient client;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,17 +99,25 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             @Override
             public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
                 if (id == R.id.login || id == EditorInfo.IME_NULL) {
-                    attemptLogin();
+                    try {
+                        attemptLogin();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                     return true;
                 }
                 return false;
             }
         });
-        Button mEmailSignInButton = (Button) findViewById(R.id.sign_in_button);
+        mEmailSignInButton = (Button) findViewById(R.id.sign_in_button);
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                attemptLogin();
+                try {
+                    attemptLogin();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         });
         mLoginFormView = findViewById(R.id.login_form);
@@ -103,10 +127,13 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         goRegister.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(v.getContext(),RegisterActivity.class);
+                Intent intent = new Intent(v.getContext(), RegisterActivity.class);
                 startActivity(intent);
             }
         });
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
 
     private void populateAutoComplete() {
@@ -153,16 +180,21 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     }
 
 
+    private boolean isEmailValid(String email) {
+        //TODO: Replace this with your own logic
+        return email.length()>=3 ;
+    }
+
+    private boolean isPasswordValid(String password) {
+        //TODO: Replace this with your own logic
+        return password.length() >= 3;
+    }
     /**
      * Attempts to sign in or register the account specified by the login form.
      * If there are form errors (invalid email, missing fields, etc.), the
      * errors are presented and no actual login attempt is made.
      */
     private void attemptLogin() {
-        if (mAuthTask != null) {
-            return;
-        }
-        // Reset errors.
         mEmailView.setError(null);
         mPasswordView.setError(null);
         // Store values at the time of the login attempt.
@@ -173,7 +205,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         View focusView = null;
 
         // Check for a valid password, if the user entered one.
-        if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
+        if (TextUtils.isEmpty(password) || !isPasswordValid(password)) {
             mPasswordView.setError(getString(R.string.error_invalid_password));
             focusView = mPasswordView;
             cancel = true;
@@ -193,21 +225,77 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             // form field with an error.
             focusView.requestFocus();
         } else {
-            // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             //此处保存用户名
             showProgress(true);
-            mAuthTask = new UserLoginTask(email, password);
-            mAuthTask.execute((Void) null);
+            userLoginTask(email,password);
         }
     }
-    private boolean isEmailValid(String email) {
-        //TODO: Replace this with your own logic
-        return true;
-    }
-    private boolean isPasswordValid(String password) {
-        //TODO: Replace this with your own logic
-        return password.length() >= 4;
+    private void userLoginTask(String email,String password) {
+        final String mEmail = email;
+        final String mPassword = password;
+        final String function = "login";
+        final String httpUrl = Config.USER_SERVLET;
+        HttpUtils httpUtils = new HttpUtils();
+        String params = "function=" + function + "&account=" + mEmail + "&password=" + mPassword;
+        //A Asyn to Login
+        httpUtils.doPostAsyn(httpUrl, params,new HttpUtils.CallBack() {
+            public void onRequestComplete(String result) {//绝壁是请求成功了而且接受也成功了才会过来
+                try {
+                        JSONObject jsonObject = new JSONObject(result);
+                        String msgFromServer = jsonObject.getString("msg");
+                        final SharedPreferences sharedPreferences = getSharedPreferences(Config.PREFERENCE_USER_NAME, Config.MODE); // get sharepreferences
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        if(jsonObject.getBoolean("exist")){
+                            if (jsonObject.getBoolean("state")) {//weather login succeed //获取成功可以退出了
+                                editor.putString("account", mEmail);
+                                editor.putString("password", mPassword);
+                                if (editor.commit()) {
+                                    Intent data = new Intent(LoginActivity.this,DemoActivity.class);
+                                    data.putExtra("isWhat", Config.OPERATION_LOGIN);//返回登陆成功消息给DEMO Activity
+                                    setResult(1,data); //请求码一致
+                                    finish();
+                                }
+                            }//refreshUI
+                            LoginActivity.this.runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    showProgress(false);
+                                    mPasswordView.setError("Invalid pass!");
+                                    mPasswordView.requestFocus();
+//                                    Toast.makeText(LoginActivity.this,"Pass Invalid:",Toast.LENGTH_LONG).show();
+                                }
+                            });
+                        }
+                        else{
+                            LoginActivity.this.runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    showProgress(false);
+                                    mPasswordView.setError("Invalid Account!Go Register 1");
+                                    mPasswordView.requestFocus();
+                                    Toast.makeText(LoginActivity.this,"Account Invalid:",Toast.LENGTH_LONG).show();
+                                }
+                            });
+                    }
+                }catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+            public void onRequestError(String result) {//http回调用这里的话，绝壁 是连接失败
+                Log.i("链接服务器失败了，绝壁.", "onRequestError: " + result);
+//                    Toast.makeText(LoginActivity.this,result,Toast.LENGTH_LONG).show();
+                LoginActivity.this.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        showProgress(false);
+                        mPasswordView.setError("连服务器失败");
+                        mPasswordView.requestFocus();
+                        Toast.makeText(LoginActivity.this,"ConnectionFailed:",Toast.LENGTH_LONG).show();
+                    }
+                });
+            }
+        });
     }
     /**
      * Shows the progress UI and hides the login form.
@@ -244,6 +332,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
         }
     }
+
     @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
         return new CursorLoader(this,
@@ -269,6 +358,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         }
         addEmailsToAutoComplete(emails);
     }
+
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
     }
@@ -289,72 +379,20 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         int IS_PRIMARY = 1;
     }
     /**
-     * Represents an asynchronous login/registration task used to authenticate
-     * the user.
-     */
-    public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
-        private final String mEmail;
-        private final String mPassword;
-        UserLoginTask(String email, String password) {
-            mEmail = email;
-            mPassword = password;
-        }
-        @Override
-        protected Boolean doInBackground(Void... params) { //登陆线程
-            // TODO: attempt authentication against a network service.
-            try {
-                // Simulate network access.
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
-                return false;
-            }
-            for (String credential : DUMMY_CREDENTIALS) {
-                String[] pieces = credential.split(":");
-                if (pieces[0].equals(mEmail)) {
-                    // Account exists, return true if the password matches.
-                    SharedPreferences sharedPreferences= getSharedPreferences(PREFERENCE_NAME, MODE); //获取sharepreferences
-                    SharedPreferences.Editor editor = sharedPreferences.edit();
-                    editor.putString("account",mEmail);
-                    editor.commit();
-                    Snackbar.make(mEmailView,"账户存在，已为您保存",Snackbar.LENGTH_SHORT).show();
-                    return pieces[1].equals(mPassword);
-                }
-            }
-            // TODO: register the new account here.
-            return true;
-        }
-        @Override
-        protected void onPostExecute(final Boolean success) {
-            mAuthTask = null;
-            showProgress(false);
-            SharedPreferences sharedPreferences= getSharedPreferences(PREFERENCE_NAME, MODE); //获取sharepreferences
-            SharedPreferences.Editor editor = sharedPreferences.edit();
-            if (success) {
-                editor.putString("password",mPassword);
-                editor.commit();
-                finish();
-            } else {
-                editor.putString("password",null);
-                editor.commit();
-                mPasswordView.setError(getString(R.string.error_incorrect_password));
-                mPasswordView.requestFocus();
-            }
-        }
-        @Override
-        protected void onCancelled() {
-            mAuthTask = null;
-            showProgress(false);
-        }
-    }
-    /**
      * 导航的监听事件
      */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
-            case  android.R.id.home :
+        switch (item.getItemId()) {
+            case android.R.id.home:
+//                Intent data = new Intent(LoginActivity.this,DemoActivity.class);
+//                data.putExtra("isWhat",-1);
+////                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);//刷新
+////                startActivity(intent);
+//                setResult(RESULT_OK,data);
                 finish();
-            default: return super.onOptionsItemSelected(item);
+            default:
+                return super.onOptionsItemSelected(item);
         }
     }
 }

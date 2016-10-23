@@ -6,75 +6,61 @@
     android:background="#edeff1">
 
     <ScrollView
-        android:id="@+id/fragment1_form"
-        android:layout_marginBottom="55dp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        >
         <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/fragment_setting_device_column"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="7dp"
-            android:orientation="vertical">
+            android:gravity="center_vertical"
+            android:padding="13dp"
+            android:text="智能设备列表"
+            android:textSize="18dp"
+            android:background="#ffffff" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:padding="10dp">
+                <android.support.v4.widget.SwipeRefreshLayout
+                    android:id="@+id/device_list_swipe_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/fragment_setting_device_recycler"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:padding="10dp"
+                        android:background="#ffffff">
+                    </android.support.v7.widget.RecyclerView>
+                </android.support.v4.widget.SwipeRefreshLayout>
+            </LinearLayout>
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="+缺设备点我啊+"
+                android:id="@+id/fragment_setting_add_device_btn" />
+        <!--</LinearLayout>-->
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
             <TextView
                 android:drawableLeft="@android:drawable/ic_menu_add"
                 android:drawableRight="@android:drawable/arrow_down_float"
-                android:id="@+id/fragment_setting_device_list_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="8dp"
+                android:id="@+id/fragment_setting_exp_list_name"
                 android:gravity="center_vertical"
-                android:text="智能设备列表"
+                android:text="体验馆"
                 android:textSize="18dp"
                 android:background="#ffffff" />
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/fragment_setting_device_recycler"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="10dp"
-                android:clickable="false"
-                android:background="#ffffff">
-            </android.support.v7.widget.RecyclerView>
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="20dp">
-
-                <Button
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="栏目管理"
-                    android:id="@+id/fragment_setting_column_manager_btn" />
-            </LinearLayout>
         </LinearLayout>
-
-        <!--<LinearLayout-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:paddingTop="9dp"-->
-            <!--android:orientation="vertical">-->
-            <!--<TextView-->
-                <!--android:drawableLeft="@android:drawable/ic_menu_add"-->
-                <!--android:drawableRight="@android:drawable/arrow_down_float"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:padding="8dp"-->
-                <!--android:id="@+id/fragment_setting_exp_list_name"-->
-                <!--android:gravity="center_vertical"-->
-                <!--android:text="体验馆"-->
-                <!--android:textSize="18dp"-->
-                <!--android:background="#ffffff" />-->
-            <!--<android.support.v7.widget.RecyclerView-->
-                <!--android:id="@+id/fragment_setting_exp_recycler"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:padding="10dp"-->
-                <!--android:clickable="false">-->
-            <!--</android.support.v7.widget.RecyclerView>-->
-        <!--</LinearLayout>-->
-
     </ScrollView>
 </LinearLayout>
